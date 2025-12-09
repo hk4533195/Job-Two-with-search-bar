@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <gradient
+        android:angle="135"
+        android:startColor="#8A2387"
+        android:centerColor="#BFC4CE"
+        android:endColor="#0090FF"
+        android:type="linear" />
+
+    <!-- Optional: Use padding if you apply this as a background to a TextView or Button
+    <padding
+        android:left="7dp"
+        android:top="7dp"
+        android:right="7dp"
+        android:bottom="7dp" />
+    -->
+</shape>
