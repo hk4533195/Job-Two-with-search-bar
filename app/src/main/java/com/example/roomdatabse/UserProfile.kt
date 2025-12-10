@@ -12,5 +12,7 @@ data class UserProfile(
     val email: String,
     val dob: String,
     val district: String,
-    val mobile: String
+    val mobile: String,
+    // Stores the index of the chosen profile icon
+    val profileIconIndex: Int = 0
 ): Serializable

@@ -16,8 +16,17 @@
         android:background="@drawable/button">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:id="@+id/profilePic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/person"
+            android:scaleType="centerCrop"
+            android:contentDescription="User Profile Picture"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
 
         <TextView
             android:layout_marginEnd="5dp"
@@ -25,13 +34,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
             android:text="Name"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/white"
+
             app:layout_constraintEnd_toStartOf="@+id/editBtn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/profilePic" />
 
         <TextView
             android:layout_width="0dp"
@@ -82,7 +93,6 @@
             app:layout_constraintStart_toStartOf="@+id/userDistritTxt"
             app:layout_constraintTop_toBottomOf="@+id/userDistritTxt" />
 
-
         <ImageButton
             android:id="@+id/editBtn"
             android:layout_width="42dp"
@@ -90,9 +100,11 @@
             android:layout_marginTop="24dp"
             android:background="#00FFFFFF"
             android:scaleType="fitXY"
-            android:src="@android:drawable/ic_menu_edit"
+            android:src="@drawable/pencil"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/userNameTxt" />
+            app:layout_constraintTop_toTopOf="@+id/profilePic"
+            app:layout_constraintBottom_toTopOf="@+id/deleteBtn"
+            />
 
         <ImageButton
             android:id="@+id/deleteBtn"

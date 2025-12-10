@@ -85,6 +85,12 @@ class ProfileListActivity : AppCompatActivity() {
             val intent = Intent(this@ProfileListActivity, AddProfileActivity::class.java)
             startActivity(intent)
         }
+
+        // ADD NEW ICON CHANGE LISTENER
+        profileAdapter.setOnIconChangeClickListener { updatedUserProfile ->
+            // Save the profile object with the new icon index to the database
+            profileViewModel.updateUserProfile(updatedUserProfile)
+        }
     }
 
     /**

@@ -4,13 +4,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.roomdatabse.R
 
 class ProfileAdapter : ListAdapter<UserProfile, ProfileAdapter.ProfileViewHolder>(DiffCallback()) {
 
+    // DEFINE DRAWABLE ICONS ARRAY
+    private val PROFILE_PICS = intArrayOf(
+        R.drawable.person,
+        R.drawable.person2,
+        R.drawable.smiley,
+        R.drawable.count
+    )
+
+    // listener for icon change
+    private var onIconChangeClickListener: ((UserProfile) -> Unit)? = null
     private var onItemClickListener: ((UserProfile) -> Unit)? = null
     private var onDeleteClickListener: ((UserProfile) -> Unit)? = null
     private var onUpdateClickListener: ((UserProfile) -> Unit)? = null
@@ -22,7 +34,12 @@ class ProfileAdapter : ListAdapter<UserProfile, ProfileAdapter.ProfileViewHolder
 
     override fun onBindViewHolder(holder: ProfileViewHolder, position: Int) {
         val currentItem = getItem(position)
-        holder.bind(currentItem)
+        holder.bind(currentItem, this) // <-- FIX: Passing 'this' (the adapter instance)
+    }
+
+    // Setter for the new listener
+    fun setOnIconChangeClickListener(listener: (UserProfile) -> Unit) {
+        onIconChangeClickListener = listener
     }
 
     fun setOnItemClickListener(listener: (UserProfile) -> Unit) {
@@ -38,6 +55,9 @@ class ProfileAdapter : ListAdapter<UserProfile, ProfileAdapter.ProfileViewHolder
     }
 
     inner class ProfileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        // ADD ImageView FIELD
+        private val profilePic: ImageView = itemView.findViewById(R.id.profilePic)
         private val profileName: TextView = itemView.findViewById(R.id.userNameTxt)
         private val profileEmail: TextView = itemView.findViewById(R.id.userEmailTxt)
         private val profileDOB: TextView = itemView.findViewById(R.id.userDOBTxt)
@@ -70,9 +90,34 @@ class ProfileAdapter : ListAdapter<UserProfile, ProfileAdapter.ProfileViewHolder
                     onUpdateClickListener?.invoke(profile)
                 }
             }
+
+            // IMPLEMENT TAP-TO-CYCLE LOGIC
+            profilePic.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val currentProfile = getItem(position)
+
+                    // Calculate the new icon index, cycling back to 0 if max is reached
+                    // Note: R.drawable.person/person2/smiley/count must exist!
+                    val newIndex = (currentProfile.profileIconIndex + 1) % PROFILE_PICS.size
+
+                    // Create a new UserProfile object with the updated index
+                    val updatedProfile = currentProfile.copy(profileIconIndex = newIndex)
+
+                    // Update the UI immediately
+                    profilePic.setImageResource(PROFILE_PICS[newIndex])
+
+                    // Notify the Activity/ViewModel to save this change to the database
+                    onIconChangeClickListener?.invoke(updatedProfile)
+                }
+            }
         }
 
-        fun bind(userProfile: UserProfile) {
+        fun bind(userProfile: UserProfile, adapter: ProfileAdapter) { // <-- Updated signature to take adapter
+            // SET THE INITIAL PROFILE ICON
+            val iconIndex = userProfile.profileIconIndex.coerceIn(0, adapter.PROFILE_PICS.size - 1)
+            profilePic.setImageResource(adapter.PROFILE_PICS[iconIndex])
+
             profileName.text = userProfile.name
             profileEmail.text = userProfile.email
             profileDOB.text = userProfile.dob

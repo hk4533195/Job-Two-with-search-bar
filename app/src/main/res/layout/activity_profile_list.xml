@@ -10,6 +10,21 @@
     tools:context=".ProfileListActivity"
     android:background="@drawable/bg_one">
 
+    <ImageView
+        android:id="@+id/countIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/count"
+        android:contentDescription="Profile Count Icon"
+        android:layout_marginEnd="8dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBaseline_toBaselineOf="@+id/profileCount"
+        app:layout_constraintTop_toTopOf="@+id/profileCount"
+        app:layout_constraintBottom_toBottomOf="@+id/profileCount"
+        app:layout_constraintEnd_toStartOf="@+id/profileCount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed" />
+
     <TextView
         android:id="@+id/profileCount"
         android:layout_width="wrap_content"
@@ -18,9 +33,10 @@
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:paddingBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/countIcon"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- search profile -->
     <com.google.android.material.textfield.TextInputLayout
@@ -56,6 +72,7 @@
             android:inputType="text"
             />
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/profileRecyclerView"
